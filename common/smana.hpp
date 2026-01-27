@@ -9,6 +9,12 @@ static const wchar_t* smanaPipeName = L"\\\\.\\pipe\\smana_control";
 
 using SecondType = std::chrono::seconds::rep;
 
+constexpr SecondType defaultRestTime = 60 * 5;// 5min
+constexpr SecondType defaultAlarmStart = 60 * 40;// 40min
+constexpr SecondType defaultAlarmEnd = 60 * 60;// 60min
+constexpr SecondType defaultAlarmIntervalSlow = 60 * 5;// 5min
+constexpr SecondType defaultAlarmIntervalQuick = 10;// 10s
+
 struct SmanaMessage{
     enum class Message : uint8_t{
         status = 0,
