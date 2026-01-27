@@ -13,7 +13,7 @@
 #include "NamedPipe.hpp"
 
 
-NamedPipeClient<Smana::SmanaMessage,Smana::SmanaResponse> pipeClient(Smana::smanaPipeName);
+NamedPipe::NamedPipeClient<Smana::SmanaMessage,Smana::SmanaResponse> pipeClient(Smana::smanaPipeName);
 
 int wmain(int argc, wchar_t* argv[]){
     _setmode(_fileno(stdout),_O_U16TEXT);

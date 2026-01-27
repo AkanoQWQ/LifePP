@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <type_traits>
 
+namespace NamedPipe{
+
 using PipeBufferType = uint8_t;
 
 template<typename MessageType,typename ResponseType,size_t BUFFER_SIZE = 256>
@@ -141,3 +143,5 @@ public:
         return reply;
     }
 };
+
+}// namespace NamedPipe

@@ -12,7 +12,7 @@
 #include "smana.hpp"
 #include "NamedPipe.hpp"
 
-NamedPipeServer<Smana::SmanaMessage,Smana::SmanaResponse> smanaServer(Smana::smanaPipeName);
+NamedPipe::NamedPipeServer<Smana::SmanaMessage,Smana::SmanaResponse> smanaServer(Smana::smanaPipeName);
 Smana::Clock smanaClock;
 Smana::SecondType restTime = 60 * 5;
 Smana::SecondType alarmStart = 60 * 40;
