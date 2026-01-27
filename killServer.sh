@@ -1,0 +1,1 @@
+taskkill //IM lifepp-server.exe //F
