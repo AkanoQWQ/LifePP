@@ -26,8 +26,10 @@ Smana::SecondType alarmIntervalSlow,alarmIntervalQuick;
 auto smanaCallback = [](const Smana::SmanaMessage& msg) -> Smana::SmanaResponse{
     Smana::SmanaResponse ret;
     if(msg.cmd == Smana::SmanaMessage::Message::rest){
+        std::cout<<"收到rest指令!"<<std::endl;
         smanaClock.SetStartTime(Smana::GetSecond() + restTime);
     }else if(msg.cmd == Smana::SmanaMessage::Message::status){
+        std::cout<<"查询status!"<<std::endl;
         std::string str = std::to_string(Smana::GetSecond() - smanaClock.GetStartTime());
         str += " in ";
         str += std::to_string(alarmStart);
