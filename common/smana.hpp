@@ -27,20 +27,16 @@ struct SmanaResponse{
     void Encode(const std::string& str){
         size_t n = str.size();
         if(n >= BUFFER_SIZE)n = BUFFER_SIZE - 1;
-        for(size_t i = 0;i < n;i++){
-            buffer[i] = str[i];
-        }
-        buffer[n] = L'\0';
+        std::memcpy(buffer,str.data(),n);
+        buffer[n] = '\0';
         return ;
     }
     std::string Decode(){
-        std::string str;
         size_t n = 0;
-        while(n < BUFFER_SIZE && buffer[n] != L'\0'){
+        while(n < BUFFER_SIZE && buffer[n] != '\0'){
             n++;
         }
-        str.assign(buffer,buffer+n);
-        return str;
+        return std::string(buffer,buffer+n);
     }
 };
 
