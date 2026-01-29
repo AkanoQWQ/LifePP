@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>
 #include <string>
+#include <cstring>
 #include <chrono>
 
 namespace Smana{
@@ -16,10 +17,21 @@ constexpr SecondType defaultAlarmIntervalSlow = 60 * 5;// 5min
 constexpr SecondType defaultAlarmIntervalQuick = 10;// 10s
 
 struct SmanaMessage{
+    constexpr static size_t BUFFER_SIZE = 64;
+    char buffer[BUFFER_SIZE];
     enum class Message : uint8_t{
         status = 0,
         rest = 1
     }cmd;
+    void EncodeRest(int32_t time){
+        std::memcpy(buffer,&time,sizeof(time));
+        return ;
+    }
+    int32_t DecodeRest()const{
+        int32_t timeVal = 0;
+        std::memcpy(&timeVal,buffer,sizeof(timeVal));
+        return timeVal;
+    }
 };
 struct SmanaResponse{
     constexpr static size_t BUFFER_SIZE = 64;
