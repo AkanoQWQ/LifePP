@@ -28,7 +28,7 @@ auto smanaCallback = [](const Smana::SmanaMessage& msg) -> Smana::SmanaResponse{
     if(msg.cmd == Smana::SmanaMessage::Message::rest){
         int32_t timeVal = msg.DecodeRest();
         std::cout<<"收到rest指令 : "<<timeVal<<"!"<<std::endl;
-        smanaClock.SetStartTime(Smana::GetSecond() + restTime);
+        smanaClock.SetStartTime(Smana::GetSecond() + timeVal);
     }else if(msg.cmd == Smana::SmanaMessage::Message::status){
         std::cout<<"查询status!"<<std::endl;
         std::string str = std::to_string(Smana::GetSecond() - smanaClock.GetStartTime());
