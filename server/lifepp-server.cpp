@@ -33,7 +33,7 @@ auto smanaCallback = [](const Smana::SmanaMessage& msg) -> Smana::SmanaResponse{
         str += std::to_string(alarmStart);
         str += "/";
         str += std::to_string(alarmEnd);
-        ret.Encode(Smana::Utf8ToWide(str));
+        ret.Encode(str);
     }
     return ret;
 };
@@ -41,13 +41,13 @@ auto smanaCallback = [](const Smana::SmanaMessage& msg) -> Smana::SmanaResponse{
 Json ReadConfig(){
     auto/*opt<path>*/ appdata = lifepp::tools::GetEnv("APPDATA");
     if(appdata.has_value() == false){
-        std::wcout<<L"没有找到APPDATA!"<<std::endl;
+        std::cout<<"没有找到APPDATA!"<<std::endl;
         return Json::object();
     }
     std::filesystem::path configFile = appdata.value() / "lifepp" / "config.json";
     std::ifstream instream(configFile);
     if(!instream.is_open()){
-        std::wcout<<L"configFile无法打开!"<<std::endl;
+        std::cout<<"configFile无法打开!"<<std::endl;
         return Json::object();
     }
     Json json;
@@ -62,23 +62,17 @@ void SmanaConfig(const Json& json){
     alarmIntervalQuick = json.value("alarmIntervalQuick",Smana::defaultAlarmIntervalQuick);
     smanaClock.SetClock(alarmStart,alarmEnd,alarmIntervalSlow,alarmIntervalQuick);
     smanaClock.SetStartTime(Smana::GetSecond());
-    std::wcout<<L"read smana config : \n";
-    std::wcout<<L"restTime : "<<restTime<<L"\n";
-    std::wcout<<L"alarmStart : "<<alarmStart<<L"\n";
-    std::wcout<<L"alarmEnd : "<<alarmEnd<<L"\n";
-    std::wcout<<L"alarmIntervalSlow : "<<alarmIntervalSlow<<L"\n";
-    std::wcout<<L"alarmIntervalQuick : "<<alarmIntervalQuick<<std::endl;
+    std::cout<<"read smana config : \n";
+    std::cout<<"restTime : "<<restTime<<"\n";
+    std::cout<<"alarmStart : "<<alarmStart<<"\n";
+    std::cout<<"alarmEnd : "<<alarmEnd<<"\n";
+    std::cout<<"alarmIntervalSlow : "<<alarmIntervalSlow<<"\n";
+    std::cout<<"alarmIntervalQuick : "<<alarmIntervalQuick<<std::endl;
     return ;
 }
 
-int wmain(int argc, wchar_t* argv[]){
-    _setmode(_fileno(stdout),_O_U16TEXT);
-    try{
-        std::wcout.imbue(std::locale("C.UTF-8"));
-    }catch(const std::runtime_error&){
-        std::wcout.imbue(std::locale::classic());
-    }
-
+int main(int argc,char* argv[]){
+    SetConsoleOutputCP(CP_UTF8);
     Json config = ReadConfig();
     SmanaConfig(config);
 

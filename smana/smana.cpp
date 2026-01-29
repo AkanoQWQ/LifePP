@@ -15,26 +15,25 @@
 
 NamedPipe::NamedPipeClient<Smana::SmanaMessage,Smana::SmanaResponse> pipeClient(Smana::smanaPipeName);
 
-int wmain(int argc, wchar_t* argv[]){
-    _setmode(_fileno(stdout),_O_U16TEXT);
-    std::wcout.imbue(std::locale(""));
+int main(int argc,char* argv[]){
+    SetConsoleOutputCP(CP_UTF8);
     if (argc != 2) {
-        std::wcout<<L"使用方法: smana <status|rest>\n";
+        std::cout<<"使用方法: smana <status|rest>\n";
         return 0;
     }
-    std::wstring cmd = argv[1];
+    std::string cmd = argv[1];
     std::optional<Smana::SmanaResponse> reply;
-    if(cmd == L"status"){
+    if(cmd == "status"){
         reply = pipeClient.Send({Smana::SmanaMessage::Message::status});
         if(reply.has_value() && reply.value().Decode().length() != 0){
-            std::wcout<<L"status : "<<reply.value().Decode()<<L'\n';
+            std::cout<<"status : "<<reply.value().Decode()<<'\n';
         }else{
-            std::wcout<<L"未获取到状态!\n";
+            std::cout<<"未获取到状态!\n";
         }
-    }else if(cmd == L"rest"){
+    }else if(cmd == "rest"){
         reply = pipeClient.Send({Smana::SmanaMessage::Message::rest});
     }else{
-        std::wcout<<L"未知指令!!\n";
+        std::cout<<"未知指令!!\n";
     }
     return 0;
 }
