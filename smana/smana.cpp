@@ -32,10 +32,19 @@ int32_t GetRestTime(int argc,char* argv[]){
     return val;
 }
 
+void PrintUsage(){
+    std::cout<<"usage:\n";
+    std::cout<<"  smana help\n";
+    std::cout<<"  smana status\n";
+    std::cout<<"  smana rest\n";
+    std::cout<<"  smana rest <restTime>\n";
+    return ;
+}
+
 int main(int argc,char* argv[]){
     SetConsoleOutputCP(CP_UTF8);
     if (argc < 2) {
-        std::cout<<"使用方法: smana <status|rest>\n";
+        std::cout<<"使用 smana help 来获得提示"<<std::endl;
         return 0;
     }
     std::string cmd = argv[1];
@@ -53,8 +62,10 @@ int main(int argc,char* argv[]){
         msg.cmd = Smana::SmanaMessage::Message::rest;
         msg.EncodeRest(GetRestTime(argc,argv));
         reply = pipeClient.Send(msg);
+    }else if(cmd == "help"){
+        PrintUsage();
     }else{
-        std::cout<<"未知指令!!\n";
+        std::cout<<"未知指令!!使用 smana help 来获得提示"<<std::endl;
     }
     return 0;
 }
